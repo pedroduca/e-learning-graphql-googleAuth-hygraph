@@ -3,8 +3,11 @@ import { Text, View } from 'react-native'
 import { useFonts } from 'expo-font'
 
 export default function Index() {
-  const [fontsLoaded, fontError] = useFonts({
-    'Inter-Black': require('./assets/fonts/Inter-Black.otf'),
+  const [fontsLoaded] = useFonts({
+    outfit: require('../assets/fonts/Outfit-Regular.ttf'),
+    'outfit-Bold': require('../assets/fonts/Outfit-Bold.ttf'),
+    'outfit-Light': require('../assets/fonts/Outfit-Light.ttf'),
+    'outfit-SemiBold': require('../assets/fonts/Outfit-SemiBold.ttf'),
   })
 
   return (
@@ -14,7 +17,9 @@ export default function Index() {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={{ fontFamily: 'outfit' }}>
+        Edit app/index.tsx to edit this screen.
+      </Text>
     </View>
   )
 }
