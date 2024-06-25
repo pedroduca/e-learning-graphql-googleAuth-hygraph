@@ -1,6 +1,7 @@
-import { Text, View } from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
 
 import { useFonts } from 'expo-font'
+import LoginScreen from './screen/LoginScreen'
 
 export default function Index() {
   const [fontsLoaded] = useFonts({
@@ -11,15 +12,13 @@ export default function Index() {
   })
 
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text style={{ fontFamily: 'outfit' }}>
-        Edit app/index.tsx to edit this screen.
-      </Text>
-    </View>
+      <LoginScreen />
+    </SafeAreaView>
   )
 }
