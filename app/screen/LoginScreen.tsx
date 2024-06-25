@@ -6,10 +6,40 @@ import {
   TouchableOpacity,
 } from 'react-native'
 import React from 'react'
+
+import * as WebBrowser from 'expo-web-browser'
+import { useOAuth } from '@clerk/clerk-expo'
+
+import { useWarmUpBrowser } from '@/hooks/warmUpBrowser'
+import * as Linking from 'expo-linking'
+
 import GoogleSVG from '@/assets/icons/google.svg'
 import FacebookSVG from '@/assets/icons/facebook.svg'
 
+WebBrowser.maybeCompleteAuthSession()
+
 export default function LoginScreen() {
+  useWarmUpBrowser()
+
+  const { startOAuthFlow } = useOAuth({ strategy: 'oauth_google' })
+
+  const onPress = React.useCallback(async () => {
+    try {
+      const { createdSessionId, signIn, signUp, setActive } =
+        await startOAuthFlow({
+          redirectUrl: Linking.createURL('/dashboard', { scheme: 'myapp' }),
+        })
+
+      if (createdSessionId) {
+        setActive!({ session: createdSessionId })
+      } else {
+        // Use signIn or signUp for next steps such as MFA
+      }
+    } catch (err) {
+      console.error('OAuth error', err)
+    }
+  }, [])
+
   return (
     <>
       <SafeAreaView />
@@ -25,7 +55,7 @@ export default function LoginScreen() {
 
         <TouchableOpacity
           className='p-2.5 mt-8 bg-slate-200 rounded-md flex-row'
-          onPress={() => {}}>
+          onPress={onPress}>
           <GoogleSVG className='w-6 h-6' />
           <Text className='text-base font-outfit text-gray-900 text-center px-8'>
             Log in with Google
